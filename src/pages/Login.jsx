@@ -32,6 +32,7 @@ export default function Login() {
       localStorage.setItem("token", data.token);
       localStorage.setItem("email", data.user.email);
       localStorage.setItem("role", data.user.role);
+      localStorage.setItem("isLoggedIn", "true"); // For backward compatibility
       setSuccess("Login successful! Redirecting...");
       setTimeout(() => {
         // Redirect based on role

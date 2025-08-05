@@ -40,6 +40,13 @@ const roles = ["user", "moderator", "admin"];
     e.preventDefault();
     setError("");
     setSuccess("");
+
+    // Validate skills for moderator role
+    if (role === "moderator" && skills.length === 0) {
+      setError("Skills are required for moderators");
+      return;
+    }
+
     setLoading(true);
     try {
       const res = await fetch("/api/auth/signup", {
@@ -53,9 +60,25 @@ const roles = ["user", "moderator", "admin"];
         setLoading(false);
         return;
       }
-      setSuccess("Signup successful! Redirecting to login...");
-      setTimeout(() => navigate("/login"), 1500);
-    } catch (err) {
+      
+      // Store token and user info in localStorage (auto-login after signup)
+      localStorage.setItem("token", data.token);
+      localStorage.setItem("email", data.user.email);
+      localStorage.setItem("role", data.user.role);
+      localStorage.setItem("isLoggedIn", "true");
+      
+      setSuccess("Signup successful! Redirecting...");
+      setTimeout(() => {
+        // Redirect based on role
+        if (data.user.role === "admin") {
+          navigate("/admin-dashboard");
+        } else if (data.user.role === "moderator") {
+          navigate("/moderator-dashboard");
+        } else {
+          navigate("/all-tickets");
+        }
+      }, 1500);
+    } catch {
       setError("Network error. Please try again.");
     } finally {
       setLoading(false);
@@ -128,7 +151,12 @@ const roles = ["user", "moderator", "admin"];
                 </select>
               </div>
               <div>
-                <label htmlFor="skills" className="block text-sm font-semibold text-white mb-2">Skills</label>
+                <label htmlFor="skills" className="block text-sm font-semibold text-white mb-2">
+                  Skills {role === "moderator" && <span className="text-red-400">*</span>}
+                </label>
+                {role === "moderator" && (
+                  <p className="text-xs text-gray-400 mb-2">Skills are required for moderators to enable auto-assignment</p>
+                )}
                 <div className="flex flex-wrap gap-2 mb-2">
                   {skills.map((skill, idx) => (
                     <span key={idx} className="bg-indigo-600 text-white rounded-full px-3 py-1 flex items-center text-sm font-medium">
@@ -143,7 +171,7 @@ const roles = ["user", "moderator", "admin"];
                   value={skillInput}
                   onChange={e => setSkillInput(e.target.value)}
                   onKeyDown={handleSkillKeyDown}
-                  placeholder="Type a skill and press Enter"
+                  placeholder="Type a skill and press Enter (e.g., React JS, Node JS, Python)"
                   className="block w-full rounded-md border border-gray-700 bg-[#232946] text-white px-4 py-2 focus:border-indigo-500 focus:ring-indigo-500 outline-none"
                 />
               </div>

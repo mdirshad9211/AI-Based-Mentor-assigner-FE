@@ -1,67 +1,45 @@
 
 import React, { useEffect, useState } from "react";
-
-// TODO: Replace with real API calls
-const mockTickets = [
-  {
-    id: 1,
-    title: "Login Issue",
-    description: "Cannot log in with my credentials.",
-    assignedTo: "moderator1@example.com",
-    status: "closed",
-  },
-  {
-    id: 2,
-    title: "Feature Request",
-    description: "Please add dark mode support.",
-    assignedTo: "moderator2@example.com",
-    status: "active",
-  },
-  {
-    id: 3,
-    title: "Bug in Dashboard",
-    description: "Dashboard not loading for some users.",
-    assignedTo: "moderator1@example.com",
-    status: "progress",
-  },
-  {
-    id: 4,
-    title: "Email not received",
-    description: "Verification email not received.",
-    assignedTo: "moderator3@example.com",
-    status: "active",
-  },
-  {
-    id: 5,
-    title: "UI glitch",
-    description: "Button overlaps on mobile view.",
-    assignedTo: "moderator2@example.com",
-    status: "closed",
-  },
-];
-
-const mockUsers = [
-  { id: 1, email: "user1@example.com", role: "user" },
-  { id: 2, email: "user2@example.com", role: "user" },
-  { id: 3, email: "moderator1@example.com", role: "moderator" },
-  { id: 4, email: "moderator2@example.com", role: "moderator" },
-  { id: 5, email: "moderator3@example.com", role: "moderator" },
-];
-
-
+import { useNavigate } from "react-router-dom";
 
 export default function AllTickets() {
   const [tickets, setTickets] = useState([]);
   const [search, setSearch] = useState("");
   const [filtered, setFiltered] = useState([]);
-
-  // Assume user email is stored in localStorage (mock)
-  const userEmail = localStorage.getItem('email') || 'user1@example.com';
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+  const navigate = useNavigate();
 
   useEffect(() => {
-    // Only show tickets created by this user (mock: assignedTo === userEmail)
-    setTickets(mockTickets.filter(t => t.assignedTo === userEmail));
-  }, [userEmail]);
+    // Check if user is authenticated
+    const token = localStorage.getItem("token");
+    if (!token) {
+      navigate("/login");
+      return;
+    }
+
+    const fetchTickets = async () => {
+      setLoading(true);
+      setError("");
+      try {
+        const res = await fetch("/api/tickets", {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        const data = await res.json();
+        if (!res.ok) {
+          setError(data.error || "Failed to fetch tickets");
+          setLoading(false);
+          return;
+        }
+        setTickets(data);
+      } catch (err) {
+        setError("Network error. Please try again.");
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchTickets();
+  }, [navigate]);
 
   useEffect(() => {
     if (!search.trim()) {
@@ -71,7 +49,7 @@ export default function AllTickets() {
         tickets.filter(
           t =>
             t.title.toLowerCase().includes(search.toLowerCase()) ||
-            t.assignedTo.toLowerCase().includes(search.toLowerCase())
+            (t.assignedTo?.email || "").toLowerCase().includes(search.toLowerCase())
         )
       );
     }
@@ -110,13 +88,17 @@ export default function AllTickets() {
           />
         </div>
         {/* Ticket List as Grid */}
-        {filtered.length === 0 ? (
+        {loading ? (
+          <div className="text-gray-300 text-center py-10 text-lg font-medium">Loading tickets...</div>
+        ) : error ? (
+          <div className="text-red-400 text-center py-10 text-lg font-medium">{error}</div>
+        ) : filtered.length === 0 ? (
           <div className="text-gray-300 text-center py-10 text-lg font-medium">No tickets found.</div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {filtered.map(ticket => (
               <div
-                key={ticket.id}
+                key={ticket._id || ticket.id}
                 className="rounded-xl bg-[#232946] border border-gray-700 p-6 shadow hover:shadow-lg transition flex flex-col min-h-[180px] relative"
               >
                 <div className="flex items-center justify-between mb-2">
@@ -126,18 +108,24 @@ export default function AllTickets() {
                       ticket.status === 'closed' ? 'bg-green-500/10 text-green-300 border-green-400/30' :
                       'bg-pink-500/10 text-pink-300 border-pink-400/30'}`}
                   >
-                    {ticket.status.charAt(0).toUpperCase() + ticket.status.slice(1)}
+                    {ticket.status?.charAt(0).toUpperCase() + ticket.status?.slice(1)}
                   </span>
                 </div>
                 <div className="flex items-center gap-2 mb-2">
                   <div className="w-7 h-7 rounded-full bg-indigo-700/60 flex items-center justify-center text-white font-bold text-base shadow border border-indigo-400/30">
-                    {ticket.assignedTo?.charAt(0).toUpperCase()}
+                    {(ticket.assignedTo?.email || ticket.assignedTo || "?")[0]?.toUpperCase()}
                   </div>
-                  <span className="text-xs text-gray-300">{ticket.assignedTo}</span>
+                  <span className="text-xs text-gray-300">{ticket.assignedTo?.email || ticket.assignedTo || "Unassigned"}</span>
                 </div>
-                <p className="text-gray-200 text-sm mb-2 break-words leading-relaxed">{ticket.description}</p>
+                <p className="text-gray-200 text-sm mb-3 break-words leading-relaxed line-clamp-3">{ticket.description}</p>
                 <div className="flex items-end justify-between mt-auto pt-2">
-                  <span className="text-xs text-gray-400 italic">ID: {ticket.id}</span>
+                  <span className="text-xs text-gray-400 italic">ID: {ticket._id || ticket.id}</span>
+                  <button
+                    onClick={() => navigate(`/ticket/${ticket._id || ticket.id}`)}
+                    className="bg-indigo-500 hover:bg-indigo-600 text-white px-3 py-1 rounded text-xs font-medium transition-colors"
+                  >
+                    View Details
+                  </button>
                 </div>
               </div>
             ))}

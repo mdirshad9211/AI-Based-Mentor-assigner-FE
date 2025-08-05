@@ -7,11 +7,12 @@ import Login from './pages/Login';
 import CreateTicket from './pages/CreateTicket';
 // import MyTickets from './pages/MyTickets';
 import AllTickets from './pages/AllTickets';
-// import TicketDetails from './pages/TicketDetails';
+import TicketDetails from './pages/TicketDetails';
 // import Profile from './pages/Profile';
 // import About from './pages/About';
 import NotFound from './pages/NotFound';
 import AdminDashboard from './pages/AdminDashboard';
+import ModeratorDashboard from './pages/ModeratorDashboard';
 import Footer from './components/Footer';
 
 function App() {
@@ -28,8 +29,9 @@ function App() {
           <Route path="/create-ticket" element={<CreateTicket />} />
           <Route path="/my-tickets" element={<AllTickets />} />
           <Route path="/all-tickets" element={<AllTickets />} />
+          <Route path="/ticket/:id" element={<TicketDetails />} />
           <Route path="/admin-dashboard" element={<AdminDashboard />} />
-          {/* <Route path="/ticket/:id" element={<TicketDetails />} /> */}
+          <Route path="/moderator-dashboard" element={<ModeratorDashboard />} />
           {/* <Route path="/profile" element={<Profile />} /> */}
           {/* <Route path="/about" element={<About />} /> */}
           <Route path="*" element={<NotFound />} />

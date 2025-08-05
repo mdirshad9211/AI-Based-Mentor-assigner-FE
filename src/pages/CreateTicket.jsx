@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 
@@ -8,7 +8,16 @@ export default function CreateTicket() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
+  const [assignmentInfo, setAssignmentInfo] = useState(null);
   const navigate = useNavigate();
+
+  // Check if user is authenticated
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      navigate("/login");
+    }
+  }, [navigate]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -31,10 +40,18 @@ export default function CreateTicket() {
         setLoading(false);
         return;
       }
-      setSuccess("Ticket created successfully!");
+      
+      // Show assignment information
+      setAssignmentInfo({
+        autoAssigned: data.autoAssigned,
+        relatedSkills: data.relatedSkills || [],
+        assignedTo: data.ticket?.assignedTo?.email || null
+      });
+      
+      setSuccess(data.message || "Ticket created successfully!");
       setTitle("");
       setDescription("");
-    } catch (err) {
+    } catch {
       setError("Network error. Please try again.");
     } finally {
       setLoading(false);
@@ -73,7 +90,34 @@ export default function CreateTicket() {
             />
           </div>
           {error && <div className="text-red-400 text-center font-semibold">{error}</div>}
-          {success && <div className="text-green-400 text-center font-semibold">{success}</div>}
+          {success && (
+            <div className="space-y-3">
+              <div className="text-green-400 text-center font-semibold">{success}</div>
+              {assignmentInfo && (
+                <div className="bg-[#232946] border border-gray-700 rounded-lg p-4 space-y-2">
+                  <h4 className="text-white font-semibold text-sm">Assignment Information:</h4>
+                  {assignmentInfo.relatedSkills.length > 0 && (
+                    <div className="text-gray-300 text-sm">
+                      <span className="font-medium">Detected Skills:</span> {assignmentInfo.relatedSkills.join(', ')}
+                    </div>
+                  )}
+                  {assignmentInfo.autoAssigned ? (
+                    <div className="text-green-400 text-sm">
+                      ✅ Auto-assigned to: {assignmentInfo.assignedTo}
+                    </div>
+                  ) : assignmentInfo.relatedSkills.length > 0 ? (
+                    <div className="text-yellow-400 text-sm">
+                      ⚠️ No suitable moderator found for auto-assignment
+                    </div>
+                  ) : (
+                    <div className="text-gray-400 text-sm">
+                      ℹ️ No skills detected for auto-assignment
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
+          )}
           <button
             type="submit"
             className="rounded-md bg-indigo-500 px-6 py-2 text-white font-semibold shadow hover:bg-indigo-600 transition w-full disabled:opacity-60"
