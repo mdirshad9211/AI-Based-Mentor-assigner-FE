@@ -1,17 +1,42 @@
 # AI Ticket Assistant - Frontend
 
-A modern React application for managing support tickets with role-based dashboards and AI-powered features.
+A modern React application for intelligent support ticket management with AI-powered automatic assignment, role-based dashboards, and comprehensive ticket tracking system.
 
-## Features
+## 🚀 Features
 
 - 🎨 **Modern UI**: Dark theme with gradient backgrounds and responsive design
-- 🔐 **Authentication**: Login/Signup with role-based access
+- 🔐 **Role-Based Authentication**: Login/Signup with User, Moderator, and Admin roles
 - 📱 **Responsive Design**: Mobile-first approach with Tailwind CSS
-- 🎫 **Ticket Management**: Create, view, and manage support tickets
+- 🎫 **Advanced Ticket Management**: Create, view, manage, and track support tickets
+- 🤖 **AI-Powered Assignment**: Automatic ticket assignment based on moderator skills
+- 💬 **Ticket Replies**: Threaded reply system for ticket communication
+- ⭐ **User Feedback**: Rating and feedback system for completed tickets
 - 👨‍💼 **Admin Dashboard**: Comprehensive admin panel with analytics
-- 🔍 **Search & Filter**: Real-time search functionality
+- 🔍 **Search & Filter**: Real-time search functionality across all tickets
 - 📊 **Analytics Cards**: Visual statistics and metrics
-- 🛡️ **Role-Based Access**: Different views for Users, Moderators, and Admins
+- 🛡️ **Role-Based Access**: Different views and permissions for each role
+- 📄 **Detailed Ticket Views**: Individual ticket pages with full conversation history
+- 🎯 **Skills Management**: Mandatory skills for moderators enabling smart assignment
+
+## 🆕 Latest Features
+
+### Automatic Ticket Assignment
+- **AI-Powered Matching**: Tickets automatically assigned to best-suited moderators based on skill matching
+- **Flexible Skill Matching**: Intelligent string matching with normalization and similarity algorithms
+- **Workload Balancing**: Even distribution of tickets among qualified moderators
+- **Manual Override**: Admins can still manually assign tickets when needed
+
+### Enhanced Ticket System
+- **Ticket Replies**: Full conversation threads within tickets
+- **User Feedback**: 5-star rating system with comments for completed tickets
+- **Status Tracking**: Complete lifecycle management (TODO → IN_PROGRESS → COMPLETED → REOPENED)
+- **Skills Integration**: Tickets tagged with relevant skills for better matching
+
+### Improved User Experience
+- **Professional Content**: Project-specific messaging throughout the application
+- **Delhi Contact Details**: Localized contact information for Delhi, India office
+- **Comprehensive About Page**: Detailed information about AI-powered ticket management
+- **Enhanced Navigation**: Proper alignment and role-based menu visibility
 
 ## Tech Stack
 
@@ -56,15 +81,16 @@ A modern React application for managing support tickets with role-based dashboar
 
 ### Pages
 
-- **Home** (`/`) - Landing page with hero section and features
-- **About** (`/about`) - About page with company information
-- **Contact** (`/contact`) - Contact form and information
-- **Sign Up** (`/signup`) - User registration with role selection
-- **Login** (`/login`) - User authentication
-- **Create Ticket** (`/create-ticket`) - Ticket creation form
-- **All Tickets** (`/all-tickets`) - User's personal ticket dashboard
-- **Admin Dashboard** (`/admin-dashboard`) - Admin panel with all tickets
-- **Ticket Detail** (`/:id`) - Individual ticket view and editing
+- **Home** (`/`) - Landing page with project-specific hero section and features
+- **About** (`/about`) - Comprehensive about page with AI ticket management details
+- **Contact** (`/contact`) - Contact form with Delhi, India office information
+- **Sign Up** (`/signup`) - User registration with role selection and skills validation
+- **Login** (`/login`) - User authentication with role-based redirects
+- **Create Ticket** (`/create-ticket`) - Advanced ticket creation with skills tagging
+- **All Tickets** (`/all-tickets`) - User's personal ticket dashboard with search
+- **Moderator Dashboard** (`/moderator-dashboard`) - Assigned tickets for moderators
+- **Admin Dashboard** (`/admin-dashboard`) - Complete admin panel with system analytics
+- **Ticket Details** (`/tickets/:id`) - Individual ticket view with replies and feedback
 
 ### Components
 
@@ -81,22 +107,32 @@ A modern React application for managing support tickets with role-based dashboar
 ## Features by Role
 
 ### User
-- ✅ Create support tickets
-- ✅ View personal tickets
-- ✅ Search through personal tickets
-- ✅ View ticket details
+- ✅ Create support tickets with automatic skill detection
+- ✅ View personal tickets with detailed status tracking
+- ✅ Search through personal tickets with real-time filtering
+- ✅ View ticket details with full conversation history
+- ✅ Add replies to ongoing tickets
+- ✅ Provide feedback and ratings for completed tickets
+- ✅ Track ticket progress through all status stages
 
 ### Moderator
 - ✅ All user features
-- ✅ Edit and update any ticket
-- ✅ View all tickets in the system
+- ✅ Receive automatically assigned tickets based on skills
+- ✅ View all assigned tickets in dedicated dashboard
+- ✅ Update ticket status (TODO → IN_PROGRESS → COMPLETED)
+- ✅ Reply to tickets and communicate with users
+- ✅ Skills-based workload distribution
+- ✅ Access to moderator-specific navigation
 
 ### Admin
-- ✅ All moderator features
-- ✅ Access to admin dashboard
-- ✅ View system analytics
-- ✅ Manage users and tickets
-- ✅ Complete system overview
+- ✅ All moderator and user features
+- ✅ Access to comprehensive admin dashboard
+- ✅ View system-wide analytics and metrics
+- ✅ Manage all users and tickets in the system
+- ✅ Manual ticket assignment override capabilities
+- ✅ Test and configure skill matching algorithms
+- ✅ Complete system overview and control
+- ✅ User management and role administration
 
 ## UI/UX Features
 
@@ -122,11 +158,12 @@ A modern React application for managing support tickets with role-based dashboar
 
 ## Authentication Flow
 
-1. **Registration**: Users can sign up with email, password, role, and skills
-2. **Login**: JWT-based authentication with role-specific redirects
-3. **Protected Routes**: Automatic redirect to login for unauthorized access
-4. **Role-Based Navigation**: Different menu items based on user role
-5. **Logout**: Clear session and redirect to home
+1. **Registration**: Users sign up with email, password, role selection, and mandatory skills for moderators
+2. **Role Validation**: Skills are required for moderator role during signup
+3. **Login**: JWT-based authentication with role-specific redirects and dashboard access
+4. **Protected Routes**: Automatic redirect to login for unauthorized access attempts
+5. **Role-Based Navigation**: Dynamic menu items and access controls based on user role
+6. **Session Management**: Secure session handling with automatic logout functionality
 
 ## State Management
 
@@ -141,9 +178,13 @@ The application uses React's built-in state management:
 
 All API calls are made to the backend running on `http://localhost:5000`:
 
-- **Authentication**: `/api/auth/*`
-- **Tickets**: `/api/tickets/*`
-- **Users**: `/api/auth/users` (Admin only)
+- **Authentication**: `/api/auth/*` - User registration, login, and management
+- **Tickets**: `/api/tickets/*` - Ticket CRUD operations, status updates
+- **Ticket Replies**: `/api/tickets/:id/replies` - Reply management and conversations
+- **User Feedback**: `/api/tickets/:id/feedback` - Rating and feedback submission
+- **Auto Assignment**: `/api/tickets/auto-assign` - AI-powered skill matching
+- **Skill Testing**: `/api/tickets/test-skill-matching` - Algorithm testing endpoints
+- **Users Management**: `/api/auth/users` - Admin-only user management
 
 ### Error Handling
 - Network errors are caught and displayed to users
@@ -168,22 +209,23 @@ frontend/
 │   │   ├── Contact.jsx
 │   │   ├── CTA.jsx
 │   │   ├── Footer.jsx
-│   │   ├── Hero.jsx
-│   │   ├── Navbar.jsx
+│   │   ├── Hero.jsx      # Updated with AI-powered messaging
+│   │   ├── Navbar.jsx    # Enhanced with role-based navigation
 │   │   ├── NotFound.jsx
 │   │   ├── TestimonialCard.jsx
 │   │   ├── Testimonials.jsx
-│   │   └── WhyChooseUs.jsx
+│   │   └── WhyChooseUs.jsx # Updated with project features
 │   ├── pages/             # Page components
-│   │   ├── About.jsx
-│   │   ├── AdminDashboard.jsx
+│   │   ├── About.jsx     # Comprehensive AI project details
+│   │   ├── AdminDashboard.jsx # Enhanced admin panel
 │   │   ├── AllTickets.jsx
-│   │   ├── Contact.jsx
+│   │   ├── Contact.jsx   # Delhi, India contact details
 │   │   ├── CreateTicket.jsx
-│   │   ├── Home.jsx
+│   │   ├── Home.jsx      # Updated hero and content
 │   │   ├── Login.jsx
-│   │   ├── SignUp.jsx
-│   │   └── TicketDetail.jsx
+│   │   ├── SignUp.jsx    # Role validation and skills
+│   │   ├── TicketDetails.jsx # NEW: Full ticket conversation
+│   │   └── ModeratorDashboard.jsx # NEW: Moderator-specific view
 │   ├── assets/            # Static assets
 │   │   └── react.svg
 │   ├── App.jsx            # Main application component
