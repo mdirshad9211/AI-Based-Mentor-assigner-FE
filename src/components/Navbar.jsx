@@ -61,8 +61,8 @@ export default function Navbar() {
   };
 
   return (
-    <header className="absolute inset-x-0 top-0 z-50 mb-10">
-      <nav aria-label="Global" className="flex items-center justify-between p-6 mb-10 lg:px-8">
+    <header className="absolute inset-x-0 top-0 z-50 ">
+      <nav aria-label="Global" className="flex items-center justify-between p-6  lg:px-8">
         <div className="flex lg:flex-1">
           <Link to="/" className="-m-1.5 p-1.5">
             <span className="sr-only">Ticket Assistant</span>
@@ -104,9 +104,9 @@ export default function Navbar() {
         <div className="hidden lg:flex lg:flex-1 lg:justify-end lg:items-center lg:gap-x-4">
           {!isLoggedIn ? (
             <div className="flex gap-x-4">
-              <Link to="/signup" className="text-sm/6 font-semibold text-gray-100 hover:text-indigo-400 transition-colors">
+              {/* <Link to="/signup" className="text-sm/6 font-semibold text-gray-100 hover:text-indigo-400 transition-colors">
                 Sign up
-              </Link>
+              </Link> */}
               <Link to="/login" className="text-sm/6 font-semibold text-gray-100 hover:text-indigo-400 transition-colors">
                 Log in <span aria-hidden="true">&rarr;</span>
               </Link>
@@ -173,13 +173,13 @@ export default function Navbar() {
               <div className="py-6">
                 {!isLoggedIn ? (
                   <div className="space-y-2">
-                    <Link
+                    {/* <Link
                       to="/signup"
                       onClick={() => setMobileMenuOpen(false)}
                       className="-mx-3 block rounded-lg px-3 py-2.5 text-base/7 font-semibold text-gray-100 hover:bg-gray-800"
                     >
                       Sign up
-                    </Link>
+                    </Link> */}
                     <Link
                       to="/login"
                       onClick={() => setMobileMenuOpen(false)}

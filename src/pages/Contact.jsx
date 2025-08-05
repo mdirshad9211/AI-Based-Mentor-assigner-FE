@@ -9,22 +9,22 @@ export default function Contact() {
           <div className="relative px-10 py-14 flex flex-col justify-between min-h-[500px] bg-gradient-to-br from-[#232946]/80 via-[#232946]/60 to-[#181c2a]/80">
             <div>
               <h2 className="text-4xl font-extrabold text-white mb-6">Get in touch</h2>
-              <p className="text-gray-300 mb-10 max-w-md">Proin volutpat consequat porttitor cras nullam gravida at. Orci molestie a eu arcu. Sed ut tincidunt integer elementum id sem. Arcu sed malesuada et magna.</p>
+              <p className="text-gray-300 mb-10 max-w-md">Ready to streamline your support process? Contact our AI-powered ticket management team for expert assistance and personalized solutions tailored to your business needs.</p>
               <ul className="space-y-6">
                 <li className="flex items-start gap-4">
                   <MapPinIcon className="h-6 w-6 text-gray-400 mt-1" />
                   <div>
-                    <div className="font-semibold text-white">545 Mavis Island</div>
-                    <div className="text-gray-400">Chicago, IL 99191</div>
+                    <div className="font-semibold text-white">A-42, Sector 63, Noida</div>
+                    <div className="text-gray-400">Delhi NCR, 201301, India</div>
                   </div>
                 </li>
                 <li className="flex items-center gap-4">
                   <PhoneIcon className="h-6 w-6 text-gray-400" />
-                  <span className="text-gray-300">+1 (555) 234-5678</span>
+                  <span className="text-gray-300">+91 11 4567 8900</span>
                 </li>
                 <li className="flex items-center gap-4">
                   <EnvelopeIcon className="h-6 w-6 text-gray-400" />
-                  <span className="text-gray-300">hello@example.com</span>
+                  <span className="text-gray-300">support@aiticketassistant.com</span>
                 </li>
               </ul>
             </div>

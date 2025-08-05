@@ -14,6 +14,7 @@ import NotFound from './pages/NotFound';
 import AdminDashboard from './pages/AdminDashboard';
 import ModeratorDashboard from './pages/ModeratorDashboard';
 import Footer from './components/Footer';
+import About from './pages/About'; // Ensure this import is correct
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
           <Route path="/contact" element={<Contact />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/login" element={<Login />} />
+          <Route path = "/about" element={<About />} />
 
           <Route path="/create-ticket" element={<CreateTicket />} />
           <Route path="/my-tickets" element={<AllTickets />} />

@@ -6,21 +6,29 @@ import { Link, useNavigate } from 'react-router-dom';
 export default function Hero() {
   const navigate = useNavigate();
 
-  // Replace with your real auth check
-  const isLoggedIn = false; // TODO: Replace with real logic
+  // Check if user is logged in
+  const token = localStorage.getItem('token');
+  const isLoggedIn = !!token;
 
   const handleGetStarted = (e) => {
     e.preventDefault();
     if (!isLoggedIn) {
-      navigate('/login');
+      navigate('/signup');
     } else {
-      // navigate to dashboard or other page if logged in
-      navigate('/dashboard');
+      // Navigate to dashboard based on role
+      const role = localStorage.getItem('role');
+      if (role === 'admin') {
+        navigate('/admin-dashboard');
+      } else if (role === 'moderator') {
+        navigate('/moderator-dashboard');
+      } else {
+        navigate('/all-tickets');
+      }
     }
   };
 
   return (
-    <div className="bg-gray-900">
+    <div className="bg-gray-900 pt-16"> {/* Added pt-16 to account for fixed navbar */}
       <div className="relative isolate px-6 pt-14 lg:px-8">
         <div
           aria-hidden="true"
@@ -37,29 +45,29 @@ export default function Hero() {
         <div className="mx-auto max-w-2xl py-32 sm:py-48 lg:py-56">
           <div className="hidden sm:mb-8 sm:flex sm:justify-center">
             <div className="relative rounded-full px-3 py-1 text-sm/6 text-gray-300 ring-1 ring-gray-100/10 hover:ring-gray-100/20">
-              Announcing our next round of funding.{' '}
-              <Link to="#" className="font-semibold text-indigo-400">
+              AI-Powered Smart Ticket Assignment System{' '}
+              <Link to="/about" className="font-semibold text-indigo-400">
                 <span aria-hidden="true" className="absolute inset-0" />
-                Read more <span aria-hidden="true">&rarr;</span>
+                Learn more <span aria-hidden="true">&rarr;</span>
               </Link>
             </div>
           </div>
           <div className="text-center">
             <h1 className="text-5xl font-semibold tracking-tight text-balance text-gray-100 sm:text-7xl">
-              Data to enrich your online business
+              Smart Ticket Assignment with AI-Powered Mentor Matching
             </h1>
             <p className="mt-8 text-lg font-medium text-pretty text-gray-300 sm:text-xl/8">
-              Anim aute id magna aliqua ad ad non deserunt sunt. Qui irure qui lorem cupidatat commodo. Elit sunt amet
-              fugiat veniam occaecat.
+              Revolutionize your support system with our AI-powered ticket assignment platform. Automatically match 
+              tickets to the most qualified mentors based on skills, workload, and expertise for faster resolution times.
             </p>
             <div className="mt-10 flex items-center justify-center gap-x-6">
               <button
                 onClick={handleGetStarted}
                 className="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
               >
-                Get started
+                {isLoggedIn ? 'Go to Dashboard' : 'Get Started'}
               </button>
-              <Link to="#" className="text-sm/6 font-semibold text-gray-100">
+              <Link to="/about" className="text-sm/6 font-semibold text-gray-100">
                 Learn more <span aria-hidden="true">→</span>
               </Link>
             </div>
