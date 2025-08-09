@@ -27,7 +27,7 @@ export default function TicketDetails() {
   const fetchTicketDetails = async () => {
     try {
       const token = localStorage.getItem("token");
-      const res = await fetch(`/api/tickets/${id}`, {
+      const res = await fetch(`https://ai-based-mentor-assigner-be.vercel.app/api/tickets/${id}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       const data = await res.json();
@@ -52,7 +52,7 @@ export default function TicketDetails() {
     setIsSubmittingReply(true);
     try {
       const token = localStorage.getItem("token");
-      const res = await fetch(`/api/tickets/${id}/reply`, {
+      const res = await fetch(`https://ai-based-mentor-assigner-be.vercel.app/api/tickets/${id}/reply`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -81,7 +81,7 @@ export default function TicketDetails() {
     setIsSubmittingFeedback(true);
     try {
       const token = localStorage.getItem("token");
-      const res = await fetch(`/api/tickets/${id}/feedback`, {
+      const res = await fetch(`https://ai-based-mentor-assigner-be.vercel.app/api/tickets/${id}/feedback`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

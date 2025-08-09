@@ -22,7 +22,7 @@ export default function AllTickets() {
       setLoading(true);
       setError("");
       try {
-        const res = await fetch("/api/tickets", {
+        const res = await fetch("https://ai-based-mentor-assigner-be.vercel.app/api/tickets", {
           headers: { Authorization: `Bearer ${token}` },
         });
         const data = await res.json();

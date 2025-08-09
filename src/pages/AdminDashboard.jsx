@@ -32,7 +32,7 @@ export default function AdminDashboard() {
       const token = localStorage.getItem("token");
       
       // Fetch tickets with admin endpoint
-      const ticketsRes = await fetch("/api/tickets/admin/all", {
+      const ticketsRes = await fetch("https://ai-based-mentor-assigner-be.vercel.app/api/tickets/admin/all", {
         headers: { Authorization: `Bearer ${token}` },
       });
       const ticketsData = await ticketsRes.json();
@@ -46,7 +46,7 @@ export default function AdminDashboard() {
       setStats(ticketsData.stats);
 
       // Fetch moderators
-      const moderatorsRes = await fetch("/api/auth/moderators", {
+      const moderatorsRes = await fetch("https://ai-based-mentor-assigner-be.vercel.app/api/auth/moderators", {
         headers: { Authorization: `Bearer ${token}` },
       });
       const moderatorsData = await moderatorsRes.json();
@@ -55,7 +55,7 @@ export default function AdminDashboard() {
       }
 
       // Fetch all users
-      const usersRes = await fetch("/api/auth/users", {
+      const usersRes = await fetch("https://ai-based-mentor-assigner-be.vercel.app/api/auth/users", {
         headers: { Authorization: `Bearer ${token}` },
       });
       const usersData = await usersRes.json();
@@ -92,7 +92,7 @@ export default function AdminDashboard() {
         ? { autoAssign: true }
         : { assignedTo: moderatorId };
 
-      const res = await fetch(`/api/tickets/${ticketId}/assign`, {
+      const res = await fetch(`https://ai-based-mentor-assigner-be.vercel.app/api/tickets/${ticketId}/assign`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
@@ -125,7 +125,7 @@ export default function AdminDashboard() {
 
     try {
       const token = localStorage.getItem("token");
-      const res = await fetch("/api/tickets/admin/bulk-auto-assign", {
+      const res = await fetch("https://ai-based-mentor-assigner-be.vercel.app/api/tickets/admin/bulk-auto-assign", {
         method: "POST",
         headers: {
           Authorization: `Bearer ${token}`,

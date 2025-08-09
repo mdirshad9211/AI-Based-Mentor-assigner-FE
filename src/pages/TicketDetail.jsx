@@ -22,7 +22,7 @@ export default function TicketDetail() {
       setError("");
       try {
         const token = localStorage.getItem("token");
-        const res = await fetch(`/api/tickets/${id}`, {
+        const res = await fetch(`https://ai-based-mentor-assigner-be.vercel.app/api/tickets/${id}`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         const data = await res.json();
@@ -58,7 +58,7 @@ export default function TicketDetail() {
     setUpdateLoading(true);
     try {
       const token = localStorage.getItem("token");
-      const res = await fetch(`/api/tickets/${id}`, {
+      const res = await fetch(`https://ai-based-mentor-assigner-be.vercel.app/api/tickets/${id}`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",

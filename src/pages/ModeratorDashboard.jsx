@@ -20,7 +20,7 @@ export default function ModeratorDashboard() {
       setLoading(true);
       setError("");
       try {
-        const res = await fetch("/api/tickets", {
+        const res = await fetch("https://ai-based-mentor-assigner-be.vercel.app/api/tickets", {
           headers: { Authorization: `Bearer ${token}` },
         });
         const data = await res.json();
@@ -44,7 +44,7 @@ export default function ModeratorDashboard() {
   const updateTicketStatus = async (ticketId, newStatus) => {
     try {
       const token = localStorage.getItem("token");
-      const res = await fetch(`/api/tickets/${ticketId}`, {
+      const res = await fetch(`https://ai-based-mentor-assigner-be.vercel.app/api/tickets/${ticketId}`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
