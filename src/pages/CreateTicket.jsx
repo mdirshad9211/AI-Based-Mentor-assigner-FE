@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { API_ENDPOINTS } from "../config/api.js";
 
 
 export default function CreateTicket() {
@@ -26,7 +27,7 @@ export default function CreateTicket() {
     setLoading(true);
     try {
       const token = localStorage.getItem("token");
-      const res = await fetch("https://ai-based-mentor-assigner-be.vercel.app/api/tickets", {
+      const res = await fetch(API_ENDPOINTS.TICKETS, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

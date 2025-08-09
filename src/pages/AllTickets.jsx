@@ -1,6 +1,7 @@
 
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { API_ENDPOINTS } from "../config/api.js";
 
 export default function AllTickets() {
   const [tickets, setTickets] = useState([]);
@@ -22,7 +23,7 @@ export default function AllTickets() {
       setLoading(true);
       setError("");
       try {
-        const res = await fetch("https://ai-based-mentor-assigner-be.vercel.app/api/tickets", {
+        const res = await fetch(API_ENDPOINTS.TICKETS, {
           headers: { Authorization: `Bearer ${token}` },
         });
         const data = await res.json();
@@ -32,7 +33,7 @@ export default function AllTickets() {
           return;
         }
         setTickets(data);
-      } catch (err) {
+      } catch {
         setError("Network error. Please try again.");
       } finally {
         setLoading(false);

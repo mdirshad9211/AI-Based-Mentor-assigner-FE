@@ -3,6 +3,7 @@
 
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { API_ENDPOINTS } from "../config/api.js";
 
 
 export default function SignUp
@@ -49,7 +50,7 @@ const roles = ["user", "moderator", "admin"];
 
     setLoading(true);
     try {
-      const res = await fetch("https://ai-based-mentor-assigner-be.vercel.app/api/auth/signup", {
+      const res = await fetch(API_ENDPOINTS.SIGNUP, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password, role, skills }),
