@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { API_ENDPOINTS } from "../config/api.js";
 
 export default function ModeratorDashboard() {
   const [tickets, setTickets] = useState([]);
@@ -21,7 +20,7 @@ export default function ModeratorDashboard() {
       setLoading(true);
       setError("");
       try {
-        const res = await fetch(API_ENDPOINTS.TICKETS, {
+        const res = await fetch("https://ai-based-mentor-assigner-be.onrender.com/api/tickets", {
           headers: { Authorization: `Bearer ${token}` },
         });
         const data = await res.json();
@@ -45,7 +44,7 @@ export default function ModeratorDashboard() {
   const updateTicketStatus = async (ticketId, newStatus) => {
     try {
       const token = localStorage.getItem("token");
-      const res = await fetch(API_ENDPOINTS.TICKET_BY_ID(ticketId), {
+      const res = await fetch(`https://ai-based-mentor-assigner-be.onrender.com/api/tickets/${ticketId}`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",

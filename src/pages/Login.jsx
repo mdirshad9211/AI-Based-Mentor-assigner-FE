@@ -1,7 +1,6 @@
 
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { API_ENDPOINTS } from "../config/api.js";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -18,7 +17,7 @@ export default function Login() {
     setSuccess("");
     setLoading(true);
     try {
-      const res = await fetch(API_ENDPOINTS.LOGIN, {
+      const res = await fetch("https://ai-based-mentor-assigner-be.onrender.com/api/auth/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),

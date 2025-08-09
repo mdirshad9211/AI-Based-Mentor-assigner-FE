@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { API_ENDPOINTS } from "../config/api.js";
 
 export default function AdminDashboard() {
   const [tickets, setTickets] = useState([]);
@@ -33,7 +32,7 @@ export default function AdminDashboard() {
       const token = localStorage.getItem("token");
       
       // Fetch tickets with admin endpoint
-      const ticketsRes = await fetch(API_ENDPOINTS.TICKETS_ADMIN_ALL, {
+      const ticketsRes = await fetch("https://ai-based-mentor-assigner-be.onrender.com/api/tickets/admin/all", {
         headers: { Authorization: `Bearer ${token}` },
       });
       const ticketsData = await ticketsRes.json();
@@ -47,7 +46,7 @@ export default function AdminDashboard() {
       setStats(ticketsData.stats);
 
       // Fetch moderators
-      const moderatorsRes = await fetch(API_ENDPOINTS.MODERATORS, {
+      const moderatorsRes = await fetch("https://ai-based-mentor-assigner-be.onrender.com/api/auth/moderators", {
         headers: { Authorization: `Bearer ${token}` },
       });
       const moderatorsData = await moderatorsRes.json();
@@ -56,7 +55,7 @@ export default function AdminDashboard() {
       }
 
       // Fetch all users
-      const usersRes = await fetch(API_ENDPOINTS.USERS, {
+      const usersRes = await fetch("https://ai-based-mentor-assigner-be.onrender.com/api/auth/users", {
         headers: { Authorization: `Bearer ${token}` },
       });
       const usersData = await usersRes.json();
@@ -93,7 +92,7 @@ export default function AdminDashboard() {
         ? { autoAssign: true }
         : { assignedTo: moderatorId };
 
-      const res = await fetch(API_ENDPOINTS.TICKET_ASSIGN(ticketId), {
+      const res = await fetch(`https://ai-based-mentor-assigner-be.onrender.com/api/tickets/${ticketId}/assign`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
@@ -126,7 +125,7 @@ export default function AdminDashboard() {
 
     try {
       const token = localStorage.getItem("token");
-      const res = await fetch(API_ENDPOINTS.TICKETS_BULK_AUTO_ASSIGN, {
+      const res = await fetch("https://ai-based-mentor-assigner-be.onrender.com/api/tickets/admin/bulk-auto-assign", {
         method: "POST",
         headers: {
           Authorization: `Bearer ${token}`,

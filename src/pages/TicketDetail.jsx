@@ -1,7 +1,6 @@
 
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { API_ENDPOINTS } from "../config/api.js";
 
 export default function TicketDetail() {
   const { id } = useParams();
@@ -23,7 +22,7 @@ export default function TicketDetail() {
       setError("");
       try {
         const token = localStorage.getItem("token");
-        const res = await fetch(API_ENDPOINTS.TICKET_BY_ID(id), {
+        const res = await fetch(`https://ai-based-mentor-assigner-be.onrender.com/api/tickets/${id}`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         const data = await res.json();
@@ -59,7 +58,7 @@ export default function TicketDetail() {
     setUpdateLoading(true);
     try {
       const token = localStorage.getItem("token");
-      const res = await fetch(API_ENDPOINTS.TICKET_BY_ID(id), {
+      const res = await fetch(`https://ai-based-mentor-assigner-be.onrender.com/api/tickets/${id}`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",

@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { API_ENDPOINTS } from "../config/api.js";
 
 export default function TicketDetails() {
   const { id } = useParams();
@@ -28,7 +27,7 @@ export default function TicketDetails() {
   const fetchTicketDetails = async () => {
     try {
       const token = localStorage.getItem("token");
-      const res = await fetch(API_ENDPOINTS.TICKET_BY_ID(id), {
+      const res = await fetch(`https://ai-based-mentor-assigner-be.onrender.com/api/tickets/${id}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       const data = await res.json();
@@ -53,7 +52,7 @@ export default function TicketDetails() {
     setIsSubmittingReply(true);
     try {
       const token = localStorage.getItem("token");
-      const res = await fetch(API_ENDPOINTS.TICKET_REPLY(id), {
+      const res = await fetch(`https://ai-based-mentor-assigner-be.onrender.com/api/tickets/${id}/reply`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -82,7 +81,7 @@ export default function TicketDetails() {
     setIsSubmittingFeedback(true);
     try {
       const token = localStorage.getItem("token");
-      const res = await fetch(API_ENDPOINTS.TICKET_FEEDBACK(id), {
+      const res = await fetch(`https://ai-based-mentor-assigner-be.onrender.com/api/tickets/${id}/feedback`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

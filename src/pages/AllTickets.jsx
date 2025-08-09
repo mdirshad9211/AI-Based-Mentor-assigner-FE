@@ -1,7 +1,6 @@
 
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { API_ENDPOINTS } from "../config/api.js";
 
 export default function AllTickets() {
   const [tickets, setTickets] = useState([]);
@@ -23,7 +22,7 @@ export default function AllTickets() {
       setLoading(true);
       setError("");
       try {
-        const res = await fetch(API_ENDPOINTS.TICKETS, {
+        const res = await fetch("https://ai-based-mentor-assigner-be.onrender.com/api/tickets", {
           headers: { Authorization: `Bearer ${token}` },
         });
         const data = await res.json();
