@@ -105,9 +105,9 @@ export default function Navbar() {
         <div className="hidden lg:flex lg:flex-1 lg:justify-end lg:items-center lg:gap-x-4">
           {!isLoggedIn ? (
             <div className="flex gap-x-4">
-              {/* <Link to="/signup" className="text-sm/6 font-semibold text-gray-100 hover:text-indigo-400 transition-colors">
+              <Link to="/signup" className="text-sm/6 font-semibold text-gray-100 hover:text-indigo-400 transition-colors">
                 Sign up
-              </Link> */}
+              </Link>
               <Link to="/login" className="text-sm/6 font-semibold text-gray-100 hover:text-indigo-400 transition-colors">
                 Log in <span aria-hidden="true">&rarr;</span>
               </Link>

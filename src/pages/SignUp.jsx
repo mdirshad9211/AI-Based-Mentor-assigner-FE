@@ -2,7 +2,7 @@
 
 
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 
 export default function SignUp
@@ -185,7 +185,7 @@ const roles = ["user", "moderator", "admin"];
                 {loading ? "Signing Up..." : "Sign Up"}
               </button>
               <div className="text-center text-white/80 mt-4 text-base">
-                Already have an account? <a href="/login" className="text-indigo-400 underline hover:text-indigo-300 font-semibold">Login</a>
+                Already have an account? <Link to="/login" className="text-indigo-400 underline hover:text-indigo-300 font-semibold">Login</Link>
               </div>
             </form>
           </div>

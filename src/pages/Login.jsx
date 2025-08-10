@@ -1,6 +1,6 @@
 
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -111,7 +111,7 @@ export default function Login() {
                 {loading ? "Logging in..." : "Login"}
               </button>
               <div className="text-center text-white/80 mt-4 text-base">
-                Don't have an account? <a href="/signup" className="text-indigo-400 underline hover:text-indigo-300 font-semibold">Sign Up</a>
+                Don't have an account? <Link to="/signup" className="text-indigo-400 underline hover:text-indigo-300 font-semibold">Sign Up</Link>
               </div>
             </form>
           </div>
